@@ -50,4 +50,8 @@ router.get('/logout', isLoggedIn, (req, res) => {
   req.session.destroy();
   res.redirect('/');
 });
+
+router.post('/deluser', isLoggedIn, (req, res, next) =>{
+  
+})
 module.exports = router;
