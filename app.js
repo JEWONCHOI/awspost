@@ -3,11 +3,13 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
+const nodemailer = require('nodemailer');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
 const passport = require('passport');
 const helmet = require('helmet');
 const hpp = require('hpp');
+
 // const redis = require('redis');
 // const RedisStore = require('connect-redis')(session);
 
@@ -27,6 +29,8 @@ const logger = require('./logger');
 const app = express();
 passportConfig(); // 패스포트 설정
 app.set('port', process.env.PORT || 8001);
+
+
 app.set('view engine', 'html');
 nunjucks.configure('views', {
   express: app,
@@ -99,5 +103,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

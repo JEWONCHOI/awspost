@@ -6,8 +6,9 @@ const User = require('../models/user');
 
 const router = express.Router();
 
+
 router.post('/join', isNotLoggedIn, async (req, res, next) => {
-  const { email, nick, password } = req.body;
+  const { email, password, nick} = req.body
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
@@ -51,7 +52,21 @@ router.get('/logout', isLoggedIn, (req, res) => {
   res.redirect('/');
 });
 
-router.post('/deluser', isLoggedIn, (req, res, next) =>{
-  
-})
+router.get('/delUser', isLoggedIn, async(req, res, next) =>{
+  try {
+    await User.destroy({
+      where:{
+        email : req.user.email
+      },
+    });
+    req.logout();
+    req.session.destroy();
+    return res.redirect('/');
+  } catch (error){
+    console.error(error);
+    next(error);
+  }
+});
+
+
 module.exports = router;
